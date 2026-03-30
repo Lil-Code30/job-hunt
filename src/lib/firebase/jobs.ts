@@ -48,7 +48,7 @@ export async function createJob(
   // Write initial status history
   await addDoc(collection(db, JOBS_COLLECTION, ref.id, "statusHistory"), {
     status: input.status,
-    changedAt: serverTimestamp(),
+    changedAt: serverTimestamp() as unknown as Timestamp,
   } satisfies Omit<StatusHistoryEntry, "note">);
 
   return ref.id;

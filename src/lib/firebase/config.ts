@@ -1,5 +1,4 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -13,9 +12,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Prevent re-initializing on hot reload
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
