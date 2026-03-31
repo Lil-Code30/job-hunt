@@ -16,6 +16,26 @@ A Linear-inspired job application tracker built with Next.js 16 and Firebase.
 - Google + email auth
 - Real-time Firestore sync
 
+## Screenshots
+
+| Title & Description | Screenshot |
+|---------------------|------------|
+| **Main Dashboard**<br>Overview of application metrics and recent activities. | ![Main Dashboard](screenshots/main-dashboard.png) |
+| **Command Palette**<br>Global search using Cmd+K to quickly find jobs and contacts. | ![Command Palette](screenshots/command-palette.png) |
+| **Jobs List - Kanban View**<br>Drag and drop jobs across different status columns. | ![Kanban View](screenshots/jobs-list-kabana-view.png) |
+| **Jobs List - Table View**<br>A structured table view of all your tracked jobs. | ![Table View](screenshots/jobs-list-table-view.png) |
+| **Job List Filters**<br>Advanced filtering and search options for your applications. | ![Job Filters](screenshots/job-list-filters.png) |
+| **Job Details Page**<br>Comprehensive view of a specific job application. | ![Job Details](screenshots/job-details-page.png) |
+| **Job Status Timeline**<br>A history timeline showing the status evolution for a job. | ![Status Timeline](screenshots/job-status-timeline-pge.png) |
+| **Add Job Form**<br>Track a new job application by filling out its basic details. | ![Add Job Form](screenshots/add-job-form.png) |
+| **Add Job - Description**<br>Markdown editor to save the job description. | ![Job Description](screenshots/add-job-form_description.png) |
+| **Add Job - Notes**<br>Markdown editor to log interview notes and reflections. | ![Job Notes](screenshots/add-job-form_notes.png) |
+| **Add Job - Contacts**<br>Manage recruiter and employee contacts for the role. | ![Job Contacts](screenshots/add-job-form_contact.png) |
+| **Contact Directory**<br>A consolidated list of all your networking contacts. | ![Contact List](screenshots/contact-list.png) |
+| **Statistics & Charts (1)**<br>Visual breakdowns and metrics of your job hunt performance. | ![Stats Page 1](screenshots/stats-page-1.png) |
+| **Statistics & Charts (2)**<br>Application funnel and more detailed analytics. | ![Stats Page 2](screenshots/stats-page-2.png) |
+| **Settings**<br>Manage application preferences and account options. | ![Settings Page](screenshots/settings-page.png) |
+
 ## Stack
 
 - **Framework**: Next.js 16 (App Router)
