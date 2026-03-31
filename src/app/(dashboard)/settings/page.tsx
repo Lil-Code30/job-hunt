@@ -1,38 +1,67 @@
 "use client";
 
-import { logout } from "@/lib/firebase/auth";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/hooks/useAuth";
+import { logout } from "@/lib/firebase/auth";
 
 export default function SettingsPage() {
+  const { user } = useAuth();
   const router = useRouter();
 
   async function handleLogout() {
     await logout();
-    router.push("/login");
+    router.replace("/login");
   }
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <h1 className="text-2xl font-semibold">Settings</h1>
+    <div className="max-w-xl space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold text-gray-100">Settings</h1>
+        <p className="mt-1 text-sm text-gray-400">Manage your account</p>
+      </div>
 
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
-        <h2 className="font-semibold mb-4">Account</h2>
-        <p className="text-sm text-zinc-400 mb-4">
-          Manage your account settings and preferences.
-        </p>
+      <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6 space-y-4">
+        <h2 className="text-sm font-semibold text-gray-300">Account</h2>
+        <div className="flex items-center gap-4">
+          {user?.photoURL && (
+            <img
+              src={user.photoURL}
+              alt=""
+              className="h-10 w-10 rounded-full"
+            />
+          )}
+          <div>
+            <p className="text-sm font-medium text-gray-200">
+              {user?.displayName ?? "User"}
+            </p>
+            <p className="text-xs text-gray-500">{user?.email}</p>
+          </div>
+        </div>
         <button
           onClick={handleLogout}
-          className="rounded-lg border border-zinc-700 px-4 py-2 text-sm hover:bg-zinc-800 transition-colors"
+          className="rounded-xl border border-red-900 bg-red-950 px-4 py-2 text-sm font-medium text-red-400 hover:bg-red-900 transition-colors"
         >
           Sign out
         </button>
       </div>
 
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
-        <h2 className="font-semibold mb-4">About</h2>
-        <p className="text-sm text-zinc-400">
-          Job Hunt v0.1.0 — Built with Next.js and Firebase.
-        </p>
+      <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6 space-y-3">
+        <h2 className="text-sm font-semibold text-gray-300">
+          Keyboard shortcuts
+        </h2>
+        <div className="space-y-2">
+          {[
+            ["Open search", "⌘ K"],
+            ["New job", "⌘ N"],
+          ].map(([label, keys]) => (
+            <div key={label} className="flex items-center justify-between">
+              <span className="text-sm text-gray-400">{label}</span>
+              <kbd className="rounded border border-gray-700 bg-gray-800 px-2 py-0.5 text-xs text-gray-400 font-mono">
+                {keys}
+              </kbd>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
