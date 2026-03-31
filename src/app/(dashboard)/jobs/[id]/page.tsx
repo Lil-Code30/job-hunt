@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getJob, getStatusHistory, deleteJob } from "@/lib/firebase/jobs";
@@ -12,7 +12,8 @@ import MarkdownViewer from "@/components/shared/MarkdownViewer";
 import ContactCard from "@/components/jobs/ContactCard";
 import type { Job, StatusHistoryEntry } from "@/types";
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
+export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const { user } = useAuth();
   const router = useRouter();
   const [job, setJob] = useState<Job | null>(null);
@@ -27,20 +28,20 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     async function load() {
       const [j, h] = await Promise.all([
-        getJob(params.id),
-        getStatusHistory(params.id),
+        getJob(id),
+        getStatusHistory(id),
       ]);
       setJob(j);
       setHistory(h);
       setLoading(false);
     }
     load();
-  }, [params.id]);
+  }, [id]);
 
   async function handleDelete() {
     if (!confirm("Delete this job? This cannot be undone.")) return;
     setDeleting(true);
-    await deleteJob(params.id);
+    await deleteJob(id);
     router.push("/jobs");
   }
 
