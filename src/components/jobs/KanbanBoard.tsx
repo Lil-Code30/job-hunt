@@ -8,6 +8,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  useDroppable,
   type DragStartEvent,
   type DragEndEvent,
 } from '@dnd-kit/core'
@@ -85,8 +86,12 @@ function JobCard({ job, isDragging }: { job: Job; isDragging?: boolean }) {
 // ── Droppable column ──────────────────────────────────────────────────────────
 
 function KanbanColumn({ column, jobs }: { column: Column; jobs: Job[] }) {
+  const { setNodeRef } = useDroppable({
+    id: column.id,
+  })
+
   return (
-    <div className={`flex flex-col rounded-xl border-t-2 ${column.color} bg-gray-50 dark:bg-gray-800/50 min-w-[240px] w-[240px] shrink-0`}>
+    <div ref={setNodeRef} className={`flex flex-col rounded-xl border-t-2 ${column.color} bg-gray-50 dark:bg-gray-800/50 min-w-[240px] w-[240px] shrink-0`}>
       <div className="flex items-center gap-2 px-3 py-3">
         <span className={`h-2 w-2 rounded-full ${column.dot}`} />
         <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
