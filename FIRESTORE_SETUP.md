@@ -60,25 +60,21 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-    
-    function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
-    }
-    
+
+    // Users can only read/write their own jobs
     match /jobs/{jobId} {
-      allow read: if isOwner(resource.data.userId);
-      allow create: if isAuthenticated();
-      allow update, delete: if isOwner(resource.data.userId);
-      
+      allow read, update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+
+      // Status history subcollection — same owner rule
       match /statusHistory/{entryId} {
-        allow read, create: if isOwner(get(/databases/$(database)/documents/jobs/$(jobId)).data.userId);
+        allow read, write: if request.auth != null
+          && get(/databases/$(database)/documents/jobs/$(jobId)).data.userId == request.auth.uid;
       }
     }
   }
 }
+
 ```
 
 Click **Publish**.
