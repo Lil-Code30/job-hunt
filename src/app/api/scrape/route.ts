@@ -1,29 +1,33 @@
-import { NextRequest, NextResponse } from "next/server";
+export type ScrapedJob = {
+  title?: string;
+  company?: string;
+  location?: string;
+  remote?: boolean;
+  description?: string;
+  source?: string;
+};
 
-export async function POST(req: NextRequest) {
+export function detectSource(url: string): string {
   try {
-    const { url } = await req.json();
-    
-    if (!url) {
-      return NextResponse.json({ error: "URL is required" }, { status: 400 });
-    }
-
     const hostname = new URL(url).hostname;
-    let source = "Other";
-    if (hostname.includes("linkedin")) source = "LinkedIn";
-    else if (hostname.includes("wellfound")) source = "Wellfound";
-    else if (hostname.includes("greenhouse")) source = "Greenhouse";
-    else if (hostname.includes("lever")) source = "Lever";
+    if (hostname.includes("linkedin")) return "LinkedIn";
+    if (hostname.includes("wellfound") || hostname.includes("angel.co"))
+      return "Wellfound";
+    if (hostname.includes("indeed")) return "Indeed";
+    if (hostname.includes("greenhouse")) return "Greenhouse";
+    if (hostname.includes("lever")) return "Lever";
+  } catch {}
+  return "Company site";
+}
 
-    return NextResponse.json({
-      title: "",
-      company: "",
-      location: "",
-      remote: url.includes("remote"),
-      source,
-      description: "",
-    });
-  } catch {
-    return NextResponse.json({ error: "Failed to scrape URL" }, { status: 500 });
-  }
+export function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
